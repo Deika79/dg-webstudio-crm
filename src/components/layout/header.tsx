@@ -1,15 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Moon, Sun } from "lucide-react";
+
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 
+import { LogoutButton } from "@/components/auth/logout-button";
+
 export function Header() {
   const { theme, setTheme } = useTheme();
 
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] =
+    useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -35,19 +40,27 @@ export function Header() {
         </h2>
       </div>
 
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() =>
-          setTheme(theme === "dark" ? "light" : "dark")
-        }
-      >
-        {theme === "dark" ? (
-          <Sun size={18} />
-        ) : (
-          <Moon size={18} />
-        )}
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() =>
+            setTheme(
+              theme === "dark"
+                ? "light"
+                : "dark"
+            )
+          }
+        >
+          {theme === "dark" ? (
+            <Sun size={18} />
+          ) : (
+            <Moon size={18} />
+          )}
+        </Button>
+
+        <LogoutButton />
+      </div>
     </header>
   );
 }
