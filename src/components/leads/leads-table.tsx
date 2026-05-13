@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { useMemo, useState } from "react";
 
@@ -29,15 +29,21 @@ interface LeadsTableProps {
 export function LeadsTable({
   leads,
 }: LeadsTableProps) {
-  const [search, setSearch] = useState("");
+  const router = useRouter();
 
-  const filteredLeads = useMemo(() => {
-    return leads.filter((lead) =>
-      lead.businessName
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
-  }, [leads, search]);
+  const [search, setSearch] =
+    useState("");
+
+  const filteredLeads =
+    useMemo(() => {
+      return leads.filter((lead) =>
+        lead.businessName
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+      );
+    }, [leads, search]);
 
   return (
     <div className="space-y-4">
@@ -70,39 +76,41 @@ export function LeadsTable({
 
           <tbody>
             {filteredLeads.map((lead) => (
-              <Link
+              <tr
                 key={lead.id}
-                href={`/leads/${lead.id}`}
-                className="contents"
+                onClick={() =>
+                  router.push(
+                    `/leads/${lead.id}`
+                  )
+                }
+                className="border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer"
               >
-                <tr className="border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer">
-                  <td className="p-4 font-medium">
-                    {lead.businessName}
-                  </td>
+                <td className="p-4 font-medium">
+                  {lead.businessName}
+                </td>
 
-                  <td className="p-4 text-muted-foreground">
-                    {lead.locality}
-                  </td>
+                <td className="p-4 text-muted-foreground">
+                  {lead.locality}
+                </td>
 
-                  <td className="p-4">
-                    <Badge
-                      className={getStatusColor(
-                        lead.status
-                      )}
-                    >
-                      {formatStatus(
-                        lead.status
-                      )}
-                    </Badge>
-                  </td>
-
-                  <td className="p-4">
-                    {formatService(
-                      lead.serviceType
+                <td className="p-4">
+                  <Badge
+                    className={getStatusColor(
+                      lead.status
                     )}
-                  </td>
-                </tr>
-              </Link>
+                  >
+                    {formatStatus(
+                      lead.status
+                    )}
+                  </Badge>
+                </td>
+
+                <td className="p-4">
+                  {formatService(
+                    lead.serviceType
+                  )}
+                </td>
+              </tr>
             ))}
 
             {filteredLeads.length === 0 && (
@@ -111,7 +119,8 @@ export function LeadsTable({
                   colSpan={4}
                   className="p-10 text-center text-muted-foreground"
                 >
-                  No se encontraron leads.
+                  No se encontraron
+                  leads.
                 </td>
               </tr>
             )}
