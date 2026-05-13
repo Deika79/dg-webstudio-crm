@@ -5,10 +5,7 @@ import { Header } from "@/components/layout/header";
 
 import { CreateLeadDialog } from "@/components/leads/create-lead-dialog";
 
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { LeadsTable } from "@/components/leads/leads-table";
 
 export default async function LeadsPage() {
   const leads = await prisma.lead.findMany({
@@ -25,7 +22,7 @@ export default async function LeadsPage() {
         <Header />
 
         <div className="p-6 space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
             <div>
               <h1 className="text-3xl font-bold">
                 Leads
@@ -39,67 +36,7 @@ export default async function LeadsPage() {
             <CreateLeadDialog />
           </div>
 
-          <Card>
-            <CardContent className="p-0 overflow-x-auto">
-              <table className="w-full">
-                <thead className="border-b">
-                  <tr className="text-left">
-                    <th className="p-4">
-                      Negocio
-                    </th>
-
-                    <th className="p-4">
-                      Localidad
-                    </th>
-
-                    <th className="p-4">
-                      Estado
-                    </th>
-
-                    <th className="p-4">
-                      Servicio
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {leads.map((lead) => (
-                    <tr
-                      key={lead.id}
-                      className="border-b"
-                    >
-                      <td className="p-4 font-medium">
-                        {lead.businessName}
-                      </td>
-
-                      <td className="p-4">
-                        {lead.locality}
-                      </td>
-
-                      <td className="p-4">
-                        {lead.status}
-                      </td>
-
-                      <td className="p-4">
-                        {lead.serviceType}
-                      </td>
-                    </tr>
-                  ))}
-
-                  {leads.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan={4}
-                        className="p-8 text-center text-muted-foreground"
-                      >
-                        No hay leads todavía.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
+          <LeadsTable leads={leads} />
         </div>
       </div>
     </main>
