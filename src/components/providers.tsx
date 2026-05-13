@@ -2,6 +2,8 @@
 
 import { ThemeProvider } from "next-themes";
 
+import { AuthSessionProvider } from "@/components/session-provider";
+
 export function Providers({
   children,
 }: {
@@ -13,7 +15,9 @@ export function Providers({
       defaultTheme="dark"
       enableSystem={false}
     >
-      {children}
+      <AuthSessionProvider>
+        {children}
+      </AuthSessionProvider>
     </ThemeProvider>
   );
 }

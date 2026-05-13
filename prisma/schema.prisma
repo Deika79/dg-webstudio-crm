@@ -33,6 +33,18 @@ enum ServiceType {
   ECOMMERCE
 }
 
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  email     String   @unique
+  password  String
+
+  name      String?
+
+  leads     Lead[]
+}
+
 model Lead {
   id               String         @id @default(cuid())
   createdAt        DateTime       @default(now())
@@ -58,4 +70,7 @@ model Lead {
   serviceType      ServiceType
 
   lastContactAt    DateTime?
+
+  userId           String?
+  user             User? @relation(fields: [userId], references: [id])
 }
