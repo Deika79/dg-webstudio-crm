@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useMemo, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -68,36 +70,39 @@ export function LeadsTable({
 
           <tbody>
             {filteredLeads.map((lead) => (
-              <tr
+              <Link
                 key={lead.id}
-                className="border-b last:border-0 hover:bg-muted/30 transition-colors"
+                href={`/leads/${lead.id}`}
+                className="contents"
               >
-                <td className="p-4 font-medium">
-                  {lead.businessName}
-                </td>
+                <tr className="border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer">
+                  <td className="p-4 font-medium">
+                    {lead.businessName}
+                  </td>
 
-                <td className="p-4 text-muted-foreground">
-                  {lead.locality}
-                </td>
+                  <td className="p-4 text-muted-foreground">
+                    {lead.locality}
+                  </td>
 
-                <td className="p-4">
-                  <Badge
-                    className={getStatusColor(
-                      lead.status
+                  <td className="p-4">
+                    <Badge
+                      className={getStatusColor(
+                        lead.status
+                      )}
+                    >
+                      {formatStatus(
+                        lead.status
+                      )}
+                    </Badge>
+                  </td>
+
+                  <td className="p-4">
+                    {formatService(
+                      lead.serviceType
                     )}
-                  >
-                    {formatStatus(
-                      lead.status
-                    )}
-                  </Badge>
-                </td>
-
-                <td className="p-4">
-                  {formatService(
-                    lead.serviceType
-                  )}
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              </Link>
             ))}
 
             {filteredLeads.length === 0 && (
