@@ -6,6 +6,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 
 import { DeleteLeadButton } from "@/components/leads/delete-lead-button";
+import { EditLeadDialog } from "@/components/leads/edit-lead-dialog";
 
 import {
   formatService,
@@ -59,9 +60,13 @@ export default async function LeadPage({
               </p>
             </div>
 
-            <DeleteLeadButton
-              leadId={lead.id}
-            />
+            <div className="flex gap-2">
+              <EditLeadDialog lead={lead} />
+
+              <DeleteLeadButton
+                leadId={lead.id}
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
